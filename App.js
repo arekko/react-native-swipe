@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Card } from "react-native-elements";
+import { Button, Card, Text } from "react-native-elements";
 import Deck from "./src/Deck";
 
 const DATA = [
@@ -59,12 +59,22 @@ export default class App extends React.Component {
     );
   }
 
+  renderNoMoreCards() {
+    console.log("rnmc");
+    return (
+      <Card title="all Done!">
+        <Text>There's no more content here</Text>
+      </Card>
+    );
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Deck
           data={DATA}
           renderCard={this.renderCard}
+          renderNoMoreCards={this.renderNoMoreCards}
         />
       </View>
     );

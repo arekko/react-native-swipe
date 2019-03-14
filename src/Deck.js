@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Animated, Dimensions, PanResponder, View } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  LayoutAnimation,
+  PanResponder,
+  UIManager,
+  View
+} from "react-native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -36,6 +43,14 @@ export default class Deck extends Component {
     });
 
     this.state = { panResponder, position, index: 0 };
+  }
+
+  componentWillReceiveProps(nextProps) {}
+
+  componentWillUpdate() {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    LayoutAnimation.spring();
   }
 
   resetPosition() {
@@ -75,32 +90,49 @@ export default class Deck extends Component {
   }
 
   renderCards() {
-    if (this.state.index >= this.props.length) {
+    if (this.state.index >= this.props.data.length) {
       return this.props.renderNoMoreCards();
     }
 
-    return this.props.data.map((item, index) => {
-      if (this.state.index > index) {
-        return null;
-      }
+    return this.props.data
+      .map((item, index) => {
+        if (this.state.index > index) {
+          return null;
+        }
 
-      if (index === this.state.index) {
+        if (index === this.state.index) {
+          console.log(this.state.index);
+          return (
+            <Animated.View
+              key={item.id}
+              style={[this.getCardStyle(), styles.cardStyle]}
+              {...this.state.panResponder.panHandlers}
+            >
+              {this.props.renderCard(item)}
+            </Animated.View>
+          );
+        }
+        console.log("then");
         return (
           <Animated.View
             key={item.id}
-            style={this.getCardStyle()}
-            {...this.state.panResponder.panHandlers}
+            style={[styles.cardStyle, { top: 10 * (index - this.state.index) }]}
           >
             {this.props.renderCard(item)}
           </Animated.View>
         );
-      }
-
-      return this.props.renderCard(item);
-    });
+      })
+      .reverse();
   }
 
   render() {
     return <View>{this.renderCards()}</View>;
   }
 }
+
+const styles = {
+  cardStyle: {
+    position: "absolute",
+    width: SCREEN_WIDTH
+  }
+};

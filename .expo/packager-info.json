@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 7702,
-  "expoServerNgrokUrl": "https://p4-nta.anonymous.swipe.exp.direct",
-  "packagerNgrokUrl": "https://packager.p4-nta.anonymous.swipe.exp.direct",
-  "ngrokPid": 7755,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }
